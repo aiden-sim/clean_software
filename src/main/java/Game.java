@@ -15,16 +15,12 @@ public class Game {
 
     private void adjustCurrentFrame(int pins) {
         if (firstThrowFrame == true) {
-            if (pins == 10) {  // 스트라이크
-                itsCurrentFrame++; // 스트라이크는 한번만 투구하고 종료되기 때문에
-            } else {
+            if(adjustFrameForStrike(pins) == false)
                 firstThrowFrame = false;
-            }
         } else {
             firstThrowFrame = true;
-            itsCurrentFrame++;
+            advanceFrame();
         }
-        itsCurrentFrame = Math.min(11, itsCurrentFrame); // itsCurrentFrame은 종료의미기 때문에 10frame 인경우 11로 되어 있다.
     }
 
     public int getCurrentFrame() {
@@ -33,5 +29,17 @@ public class Game {
 
     public int scoreForFrame(int theFrame) {
         return itsScorer.scoreForFrame(theFrame);
+    }
+
+    private void advanceFrame() {
+        itsCurrentFrame = Math.min(11, itsCurrentFrame + 1); // itsCurrentFrame은 종료의미기 때문에 10frame 인경우 11로 되어 있다.
+    }
+
+    private boolean adjustFrameForStrike(int pins) {
+        if (pins == 10) {
+            advanceFrame();
+            return true;
+        }
+        return false;
     }
 }
