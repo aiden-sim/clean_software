@@ -28,6 +28,7 @@ public class Game {
             firstThrow = true;
             itsCurrentFrame++;
         }
+        itsCurrentFrame = Math.min(11, itsCurrentFrame); // itsCurrentFrame은 종료의미기 때문에 10frame 인경우 11로 되어 있다.
     }
 
     public int getCurrentFrame() {
