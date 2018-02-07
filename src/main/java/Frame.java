@@ -1,6 +1,4 @@
-/**
- * Created by simjunbo on 2018-02-07.
- */
+
 public class Frame {
     private int itsScore = 0;
 
