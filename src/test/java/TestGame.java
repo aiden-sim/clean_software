@@ -37,7 +37,6 @@ public class TestGame extends TestCase {
     }
 
     public void testSimpleSpare() {
-        Game g = new Game();
         g.add(3);
         g.add(7);
         g.add(3);
@@ -53,6 +52,15 @@ public class TestGame extends TestCase {
         assertEquals(13, g.scoreForFrame(1));
         assertEquals(18, g.scoreForFrame(2));
         assertEquals(18, g.score());
+        assertEquals(3, g.getCurrentFrame());
+    }
+
+    public void testSimpleStrile() {
+        g.add(10);
+        g.add(3);
+        g.add(6);
+        assertEquals(19, g.scoreForFrame(1));
+        assertEquals(28, g.score());
         assertEquals(3, g.getCurrentFrame());
     }
 }
