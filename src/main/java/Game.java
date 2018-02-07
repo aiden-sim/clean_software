@@ -1,16 +1,27 @@
 
 public class Game {
     private int itsScore = 0;
+    private int[] itsThrows = new int[21]; // 최대 투구 횟수
+    private int itsCurrentThrow = 0;
 
     public int score() {
         return itsScore;
     }
 
     public void add(int pins) {
+        itsThrows[itsCurrentThrow++] = pins;
         itsScore += pins;
     }
 
-    public int scoreForFrame(int frame) {
-        return 0;
+    public int scoreForFrame(int theFrame) {
+        int ball = 0;
+        int score = 0;
+        for (int currentFrame = 0; currentFrame < theFrame; currentFrame++) {
+            int firstThrow = itsThrows[ball++];
+            int secondThrow = itsThrows[ball++];
+            score += firstThrow + secondThrow;
+        }
+
+        return score;
     }
 }
