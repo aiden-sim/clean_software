@@ -8,7 +8,7 @@ public class Game {
     private boolean firstThrow = true; // 프레임에서 첫번째 투구 여부 확인
 
     public int score() {
-        return itsScore;
+        return scoreForFrame(getCurrentFrame() - 1);
     }
 
     public void add(int pins) {
