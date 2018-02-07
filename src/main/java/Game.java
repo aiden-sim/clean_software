@@ -9,4 +9,8 @@ public class Game {
     public void add(int pins) {
         itsScore += pins;
     }
+
+    public int scoreForFrame(int frame) {
+        return 0;
+    }
 }
