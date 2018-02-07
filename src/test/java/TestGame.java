@@ -5,8 +5,24 @@ public class TestGame extends TestCase {
         super(name);
     }
 
+    private Game g;
+
+    public void setUp() {
+        g = new Game();
+    }
+
     public void testOneThrow() {
-        Game g = new Game();
+        g.add(5);
+        assertEquals(5, g.score());
+    }
+
+    public void testTwoThrowsNoMark() {
+        g.add(5);
+        g.add(4);
+        assertEquals(9, g.score());
+    }
+
+    public void testFourThrowsNoMark() {
         g.add(5);
         g.add(4);
         g.add(7);
@@ -14,5 +30,13 @@ public class TestGame extends TestCase {
         assertEquals(18, g.score());
         assertEquals(9, g.scoreForFrame(1));
         assertEquals(18, g.scoreForFrame(2));
+    }
+
+    public void testSimpleSpare() {
+        Game g = new Game();
+        g.add(3);
+        g.add(7);
+        g.add(3);
+        assertEquals(13, g.scoreForFrame(1));
     }
 }
