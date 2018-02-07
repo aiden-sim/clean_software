@@ -8,6 +8,6 @@ public class TestFrame extends TestCase {
     public void testScoreNoThrows() {
         Frame f = new Frame();
         f.add(5);
-        assertEquals(0, f.getScore());
+        assertEquals(5, f.getScore());
     }
 }
