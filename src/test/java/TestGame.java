@@ -1,3 +1,4 @@
+import bowling.Game;
 import junit.framework.TestCase;
 
 public class TestGame extends TestCase {

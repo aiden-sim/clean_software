@@ -1,3 +1,4 @@
+package bowling;
 
 public class Game {
     private int itsCurrentFrame = 1; // 현재 프레임 계산

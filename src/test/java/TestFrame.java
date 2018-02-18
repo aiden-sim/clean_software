@@ -1,3 +1,4 @@
+import bowling.Frame;
 import junit.framework.TestCase;
 
 public class TestFrame extends TestCase {

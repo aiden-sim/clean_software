@@ -1,3 +1,4 @@
+package bowling;
 
 public class Scorer {
     private int ball;
