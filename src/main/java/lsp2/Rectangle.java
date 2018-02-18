@@ -1,4 +1,4 @@
-package lsp;
+package lsp2;
 
 /**
  * Created by simjunbo on 2018-02-19.
@@ -23,4 +23,8 @@ public class Rectangle {
     double getHeight() {
         return itsHeight;
     }
+}
+
+class Point {
+    double x, y;
 }
