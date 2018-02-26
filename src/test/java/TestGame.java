@@ -1,4 +1,4 @@
-import bowling.Game;
+import chater1.bowling.Game;
 import junit.framework.TestCase;
 
 public class TestGame extends TestCase {

@@ -1,4 +1,4 @@
-package lsp;
+package chater2.lsp;
 
 /**
  * Created by simjunbo on 2018-02-18.

@@ -1,4 +1,4 @@
-import bowling.Frame;
+import chater1.bowling.Frame;
 import junit.framework.TestCase;
 
 public class TestFrame extends TestCase {

@@ -1,4 +1,4 @@
-package isp2;
+package chater2.isp2;
 
 /**
  * Created by simjunbo on 2018-02-20.

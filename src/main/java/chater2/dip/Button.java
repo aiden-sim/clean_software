@@ -1,4 +1,4 @@
-package dip;
+package chater2.dip;
 
 /**
  * Created by simjunbo on 2018-02-19.

@@ -1,4 +1,4 @@
-package bowling;
+package chater1.bowling;
 
 public class Frame {
     private int itsScore = 0;

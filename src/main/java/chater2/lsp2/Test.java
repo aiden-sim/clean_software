@@ -1,4 +1,4 @@
-package lsp2;
+package chater2.lsp2;
 
 /**
  * Created by simjunbo on 2018-02-19.
@@ -15,6 +15,6 @@ public class Test {
     public static void g(Rectangle r) {
         r.setWidth(5);
         r.setHeight(5);
-        assert (r.Area() == 20);
+        //assert (r.Area() == 20);
     }
 }

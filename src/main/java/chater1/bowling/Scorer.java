@@ -1,4 +1,4 @@
-package bowling;
+package chater1.bowling;
 
 public class Scorer {
     private int ball;
