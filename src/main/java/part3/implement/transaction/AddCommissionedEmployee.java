@@ -6,24 +6,24 @@ import part3.implement.schedule.BiweeklySchedule;
 import part3.implement.schedule.PaymentSchedule;
 
 /**
- * Created by ZD on 2017/10/24.
+ * 템플릿 메소드 구현부
  */
-public class AddCommissionedEmployee extends AddEmployeeTransaction{
+public class AddCommissionedEmployee extends AddEmployeeTransaction {
 
-    private double monthlyPay;
-    private double commissionRate;
+    private double itsSalary;
+    private double itsCommissionRate;
 
-    public AddCommissionedEmployee(long id,String name,String address,double monthlyPay,double commissionRate){
-        super(id,name,address);
-        this.commissionRate = commissionRate;
-        this.monthlyPay = monthlyPay;
+    public AddCommissionedEmployee(int id, String name, String address, double salary, double commissionRate) {
+        super(id, name, address);
+        this.itsCommissionRate = commissionRate;
+        this.itsSalary = salary;
+    }
+
+    protected PaymentClassification getClassification() {
+        return new CommissionedClassification(itsSalary, itsCommissionRate);
     }
 
     protected PaymentSchedule getSchdule() {
         return new BiweeklySchedule();
-    }
-
-    protected PaymentClassification getClassification() {
-        return new CommissionedClassification(monthlyPay,commissionRate);
     }
 }

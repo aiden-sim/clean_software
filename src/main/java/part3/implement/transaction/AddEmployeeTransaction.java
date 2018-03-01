@@ -8,38 +8,36 @@ import part3.implement.method.PaymentMethod;
 import part3.implement.schedule.PaymentSchedule;
 
 /**
- *采用模板模式实现
- * Created by ZD on 2017/10/24.
+ * 직원 추가 (템플릿 메소드)
  */
 public abstract class AddEmployeeTransaction implements Transaction {
 
-    private long id;
-    private String name;
-    private String address;
+    private int itsEmpid;
+    private String itsName;
+    private String itsAddress;
 
-    public AddEmployeeTransaction(){}
-
-    public AddEmployeeTransaction(long empid,String name,String address){
-        this.id = empid;
-        this.name = name;
-        this.address = address;
+    public AddEmployeeTransaction(int empId, String name, String address) {
+        this.itsEmpid = empId;
+        this.itsName = name;
+        this.itsAddress = address;
     }
 
-    public void execute(){
+    // 템플릿 메소드
+    public void execute() {
         PaymentClassification pc = getClassification();
         PaymentSchedule ps = getSchdule();
-        PaymentMethod pm = getMethod();
-        Employee e = new Employee(id,name,address);
+        PaymentMethod pm = getHoldMethod();
+
+        Employee e = new Employee(itsEmpid, itsName, itsAddress);
         e.setClassification(pc);
         e.setSchedule(ps);
         e.setMethod(pm);
 
-
-        PayrollDatabase.getPayrollDatabase().addEmployee((int) id,e);
-
+        // 추가
+        PayrollDatabase.getPayrollDatabase().addEmployee(itsEmpid, e);
     }
 
-    protected PaymentMethod getMethod(){
+    protected PaymentMethod getHoldMethod() {
         return new HoldMethod();
     }
 

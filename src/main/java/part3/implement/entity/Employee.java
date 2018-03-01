@@ -30,15 +30,15 @@ public class Employee {
         affiliation = new NoAffiliation();
     }
 
-    public PaymentClassification getPaymentClassification() {
+    public PaymentClassification getClassification() {
         return paymentClassification;
     }
 
-    public PaymentSchedule getPaymentSchedule() {
+    public PaymentSchedule getSchedule() {
         return paymentSchedule;
     }
 
-    public PaymentMethod getPaymentMethod() {
+    public PaymentMethod getMethod() {
         return  paymentMethod;
     }
 

@@ -3,8 +3,11 @@ package part3.salary;
 
 import part3.implement.classification.CommissionedClassification;
 import part3.implement.classification.HourlyClassification;
+import part3.implement.classification.PaymentClassification;
 import part3.implement.classification.SalariedClassification;
 import part3.implement.database.PayrollDatabase;
+import part3.implement.method.PaymentMethod;
+import part3.implement.schedule.PaymentSchedule;
 import part3.implement.transaction.AddCommissionedEmployee;
 import part3.implement.transaction.AddHourlyEmployee;
 import part3.implement.entity.Employee;
@@ -18,67 +21,68 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 /**
- * 1.增加雇员测试
- * Created by ZD on 2017/10/24.
+ * 직원 추가 테스트코드
  */
 public class AddEmployTransactionTest {
-
     PayrollDatabase payrollDatabase = PayrollDatabase.getPayrollDatabase();
 
+    /**
+     * 일반직원
+     */
     @Test
-    public void testaddSalariedEmployee(){
+    public void testaddSalariedEmployee() {
         int empId = 1;
-        String name = "Bob";
-        String address = "Bob.home";
-        double monthlyPay = 1000.0;
+        AddSalariedEmployee t = new AddSalariedEmployee(empId, "Bob", "Home", 1000.00);
+        t.execute();
 
-        AddSalariedEmployee addSalariedEmployee = new AddSalariedEmployee(empId,name,address,monthlyPay);
-        addSalariedEmployee.execute();
+        Employee e = payrollDatabase.getEmployee(empId);
+        assertEquals("Bob", e.getName());
 
-        Employee e = payrollDatabase.getEmployeeById(empId);
+        PaymentClassification pc = e.getClassification();
+        SalariedClassification sc = (SalariedClassification) pc;
+        assertNotNull(sc);
+        assertEquals(1000.00, sc.getMonthlyPay(), .001);
 
-        SalariedClassification salariedClassification = (SalariedClassification) e.getPaymentClassification();
+        PaymentSchedule ps = e.getSchedule();
+        MonthlySchedule ms = (MonthlySchedule) ps;
+        assertNotNull(ms);
 
-        MonthlySchedule monthlySchedule = (MonthlySchedule) e.getPaymentSchedule();
-        System.out.println(monthlySchedule.toString());
-
-        HoldMethod holdMethod = (HoldMethod) e.getPaymentMethod();
-        assertNotNull(e);
+        PaymentMethod pm = e.getMethod();
+        HoldMethod hm = (HoldMethod) pm;
+        assertNotNull(hm);
     }
 
+    /**
+     * 알바
+     */
     @Test
-    public void testaddHourlyEmployee(){
-        long id = 2;
-        String name = "Bobh";
-        String address = "Bobh.home";
-        double hourPay = 150;
+    public void testaddHourlyEmployee() {
+        int empId = 2;
+        AddHourlyEmployee t = new AddHourlyEmployee(empId, "Bob2", "Home", 150);
+        t.execute();
 
-        AddHourlyEmployee addHourlyEmployee = new AddHourlyEmployee(id,name,address,hourPay);
-        addHourlyEmployee.execute();
+        Employee e = payrollDatabase.getEmployee(empId);
+        assertEquals("Bob2", e.getName());
 
-        Employee e = payrollDatabase.getEmployeeById(id);
-        assertEquals(e.getName(),name);
-
-        HourlyClassification classification = (HourlyClassification) e.getPaymentClassification();
-        assertEquals(hourPay,classification.getHourlyPay(),0.01);
+        PaymentClassification pc = e.getClassification();
+        HourlyClassification hc = (HourlyClassification)pc;
+        assertEquals(150, hc.getHourlyPay(), 0.01);
     }
 
 
+    /**
+     * 일반직원 + 수수료
+     */
     @Test
-    public void testAddCommissionedEmployee(){
-        long id = 3;
-        String name = "Bob3";
-        String address = "Bob3.home";
-        double monthPay = 200;
-        double commissionRate = 5;
+    public void testAddCommissionedEmployee() {
+        int empId = 3;
+        AddCommissionedEmployee t = new AddCommissionedEmployee(3, "Bob3", "Home", 1000.00, 10);
+        t.execute();
 
-        AddCommissionedEmployee addCommissionedEmployee = new AddCommissionedEmployee(id,name,address,monthPay,commissionRate);
-        addCommissionedEmployee.execute();
+        Employee e = payrollDatabase.getEmployee(empId);
+        assertEquals("Bob3", e.getName());
 
-        Employee e = payrollDatabase.getEmployeeById(id);
-        assertEquals(e.getName(),name);
-
-        CommissionedClassification commissionedClassification = (CommissionedClassification) e.getPaymentClassification();
-
+        PaymentClassification pc = e.getClassification();
+        CommissionedClassification cc = (CommissionedClassification)pc;
     }
 }

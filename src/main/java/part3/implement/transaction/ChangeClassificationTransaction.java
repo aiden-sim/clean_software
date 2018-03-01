@@ -20,7 +20,6 @@ public abstract class ChangeClassificationTransaction extends ChangeEmployeeTran
     public void change(Employee e) {
         e.setClassification(getClassification());
         e.setSchedule(getSchedule());
-
     }
 
     protected abstract PaymentSchedule getSchedule();

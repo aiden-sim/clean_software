@@ -1,6 +1,5 @@
 package part3.implement.transaction;
 
-import part3.implement.affiliation.Affiliation;
 import part3.implement.affiliation.NoAffiliation;
 import part3.implement.affiliation.UnionAffiliation;
 import part3.implement.database.PayrollDatabase;
@@ -24,6 +23,6 @@ public class ChangeUnaffiliatedTransaction extends ChangeAffiliationTransaction 
     protected void recordMemberShip(Employee e) {
         UnionAffiliation unionAffiliation = (UnionAffiliation) e.getAffiliation();
         int memberId = (int) unionAffiliation.getMemberID();
-        PayrollDatabase.getPayrollDatabase().removeUnionMember(memberId);
+        PayrollDatabase.getPayrollDatabase().deleteUnionMember(memberId);
     }
 }

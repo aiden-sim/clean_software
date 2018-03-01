@@ -1,47 +1,45 @@
 package part3.salary;
 
 import part3.implement.classification.HourlyClassification;
+import part3.implement.classification.PaymentClassification;
 import part3.implement.database.PayrollDatabase;
 import part3.implement.entity.Employee;
 import part3.implement.entity.TimeCard;
 import part3.implement.transaction.AddHourlyEmployee;
-import part3.implement.transaction.AddTimecardTransaction;
+import part3.implement.transaction.TimeCardTransaction;
 import org.junit.Test;
 
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
- * 时间卡测试
- * Created by ZD on 2017/10/24.
+ * 알바 직원 추가 테스트코드
+ * 타임카드도 같이 추가
  */
 public class TimeCardTransactionTest {
-
     PayrollDatabase payrollDatabase = PayrollDatabase.getPayrollDatabase();
 
     @Test
-    public void addTimeCardTest(){
-        int empId = 5;
-        String name = "Bob5";
-        String address = "Bob5.home";
-        double hourlyPay = 20;
+    public void addTimeCardTest() throws Exception {
+        int empId = 2;
+        AddHourlyEmployee t = new AddHourlyEmployee(empId, "Bill", "Home", 15.25);
+        t.execute();
 
-        AddHourlyEmployee addHourlyEmployee = new AddHourlyEmployee(empId,name,address,hourlyPay);
-        addHourlyEmployee.execute();
+        Date date = new Date(2001, 10, 31);
+        TimeCardTransaction tct = new TimeCardTransaction(date, 8.0, empId);
+        tct.execute();
 
-        Date date = new Date(2017,10,24);
+        Employee e = payrollDatabase.getEmployee(empId);
+        assertNotNull(e);
 
-        AddTimecardTransaction timecardTransaction = new AddTimecardTransaction(date,8.0,empId);
-        timecardTransaction.execute();
+        PaymentClassification pc = e.getClassification();
+        HourlyClassification hc = (HourlyClassification) pc;
+        assertNotNull(hc);
 
-        Employee e = payrollDatabase.getEmployeeById(empId);
-
-        HourlyClassification paymentClassification = (HourlyClassification) e.getPaymentClassification();
-
-        TimeCard timeCard = paymentClassification.getTimeCard(date);
-      System.out.println(((HourlyClassification) e.getPaymentClassification()).getTimeCard(date).getHours());
-
-
+        TimeCard tc = hc.getTimeCard(date);
+        assertNotNull(tc);
+        assertEquals(8.0, tc.getHours(), 0.001);
     }
 }

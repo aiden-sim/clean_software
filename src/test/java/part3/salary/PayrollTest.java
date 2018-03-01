@@ -3,15 +3,13 @@ package part3.salary;
 import part3.implement.payday.PayCheck;
 import part3.implement.transaction.AddHourlyEmployee;
 import part3.implement.transaction.AddSalariedEmployee;
-import part3.implement.transaction.AddTimecardTransaction;
+import part3.implement.transaction.TimeCardTransaction;
 import part3.implement.transaction.PayDayTransaction;
 import part3.implement.util.DateUtil;
 import org.junit.Test;
 
 
-import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -115,7 +113,7 @@ public class PayrollTest {
      * 支付具有单一时间卡的雇员薪水
      */
     @Test
-    public void testPaySingleHourlyEmployee(){
+    public void testPaySingleHourlyEmployee() throws Exception {
         int empId = 1;
         String name = "Bob";
         String address = "Bob.home";
@@ -126,8 +124,8 @@ public class PayrollTest {
 
         Date payDate = new Date(2017,10,28);
 
-        AddTimecardTransaction addTimecardTransaction = new AddTimecardTransaction(payDate,2.0,empId);
-        addTimecardTransaction.execute();
+        TimeCardTransaction timeCardTransaction = new TimeCardTransaction(payDate,2.0,empId);
+        timeCardTransaction.execute();
 
         PayDayTransaction payDayTransaction = new PayDayTransaction(payDate);
         payDayTransaction.execute();

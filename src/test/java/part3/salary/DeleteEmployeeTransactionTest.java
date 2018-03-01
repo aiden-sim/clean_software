@@ -2,41 +2,36 @@ package part3.salary;
 
 import part3.implement.database.PayrollDatabase;
 import part3.implement.entity.Employee;
+import part3.implement.transaction.AddCommissionedEmployee;
 import part3.implement.transaction.AddSalariedEmployee;
 import part3.implement.transaction.DeleteEmployeeTransaction;
-import junit.framework.TestCase;
 import org.junit.Test;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 /**
- * 删除雇员
- * Created by ZD on 2017/10/24.
+ * 직원 삭제 테스트코드
  */
 public class DeleteEmployeeTransactionTest {
-
-
     PayrollDatabase payrollDatabase = PayrollDatabase.getPayrollDatabase();
 
     @Test
     public void testDeleteEmployee(){
-        long id = 4;
-        String name = "Bob4";
-        String address = "Bob4.home";
-        double monthlyPay = 1000;
+        int empId = 3;
+        AddCommissionedEmployee t = new AddCommissionedEmployee(empId, "Lance", "Home", 2500, 3.2);
+        t.execute();
+        {
+            Employee e = payrollDatabase.getEmployee(empId);
+            assertNotNull(e);
+        }
 
-        AddSalariedEmployee addSalariedEmployee = new AddSalariedEmployee(id,name,address,monthlyPay);
-        addSalariedEmployee.execute();
-
-        Employee e = payrollDatabase.getEmployeeById(id);
-        //assertEquals(e,addSalariedEmployee);
-
-        DeleteEmployeeTransaction deleteEmployeeTransaction = new DeleteEmployeeTransaction(id);
-        deleteEmployeeTransaction.execute();
-
-        assertNull(payrollDatabase.getEmployeeById(id));
-
-
+        DeleteEmployeeTransaction dt = new DeleteEmployeeTransaction(empId);
+        dt.execute();
+        {
+            Employee e = payrollDatabase.getEmployee(empId);
+            assertNull(e);
+        }
     }
 
 

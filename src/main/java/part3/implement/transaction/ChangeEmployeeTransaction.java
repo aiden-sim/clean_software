@@ -8,7 +8,7 @@ import part3.implement.entity.Employee;
  */
 public abstract class ChangeEmployeeTransaction implements Transaction {
 
-    private long empID;
+    private int empID;
 
     public ChangeEmployeeTransaction(int empID) {
         this.empID = empID;
@@ -17,7 +17,7 @@ public abstract class ChangeEmployeeTransaction implements Transaction {
     public ChangeEmployeeTransaction(){}
 
     public void execute() {
-        Employee e = PayrollDatabase.getPayrollDatabase().getEmployeeById(empID);
+        Employee e = PayrollDatabase.getPayrollDatabase().getEmployee(empID);
         if (e != null){
             change(e);
         }

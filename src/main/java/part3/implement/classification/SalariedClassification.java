@@ -7,14 +7,17 @@ import part3.implement.payday.PayCheck;
  */
 public class SalariedClassification implements PaymentClassification {
 
-    private double monthlyPay;
+    private double itsSalary;
 
-    public SalariedClassification(double monthlyPay) {
-        this.monthlyPay = monthlyPay;
+    public SalariedClassification(double salary) {
+        this.itsSalary = salary;
     }
 
+    public double getMonthlyPay() {
+        return itsSalary;
+    }
 
     public double calculatePay(PayCheck payCheck) {
-        return monthlyPay;
+        return itsSalary;
     }
 }

@@ -1,31 +1,24 @@
 package part3.implement.entity;
 
-import java.awt.*;
-import java.awt.dnd.DropTarget;
 import java.util.Date;
 
 /**
- * Created by ZD on 2017/10/24.
+ * 타임카드
  */
 public class TimeCard {
+    private Date itsDate;
+    private double itsHours;
 
-    private Date date;
-    private double hours;
-
-    public TimeCard(){}
-
-    public TimeCard(Date date,double hours){
-        this.date = date;
-        this.hours = hours;
+    public TimeCard(Date date, double hours) {
+        this.itsDate = date;
+        this.itsHours = hours;
     }
 
     public Date getDate() {
-        return date;
+        return itsDate;
     }
 
     public double getHours() {
-        return hours;
+        return itsHours;
     }
-
-
 }

@@ -1,6 +1,5 @@
 package part3.salary;
 
-import part3.implement.affiliation.NoAffiliation;
 import part3.implement.affiliation.UnionAffiliation;
 import part3.implement.classification.CommissionedClassification;
 import part3.implement.classification.HourlyClassification;
@@ -9,7 +8,6 @@ import part3.implement.database.PayrollDatabase;
 import part3.implement.entity.Employee;
 import part3.implement.method.DirectMethod;
 import part3.implement.method.HoldMethod;
-import part3.implement.method.PaymentMethod;
 import part3.implement.transaction.*;
 import org.junit.Test;
 
@@ -39,7 +37,7 @@ public class ChangeEmployeeTransactionTest {
         AddSalariedEmployee addSalariedEmployee = new AddSalariedEmployee(empID,name,address,monthlyPay);
         addSalariedEmployee.execute();
 
-        Employee e = payrollDatabase.getEmployeeById(empID);
+        Employee e = payrollDatabase.getEmployee(empID);
 
         ChangeNameTransaction changeNameTransaction = new ChangeNameTransaction(empID,newName);
         changeNameTransaction.execute();
@@ -61,7 +59,7 @@ public class ChangeEmployeeTransactionTest {
         AddSalariedEmployee addSalariedEmployee = new AddSalariedEmployee(empId,name,address,monthlyPay);
         addSalariedEmployee.execute();
 
-        Employee e = payrollDatabase.getEmployeeById(empId);
+        Employee e = payrollDatabase.getEmployee(empId);
         String newAddress = "Bob.address";
 
         ChangeEmployeeTransaction changeAddressTransaction = new ChangeAddressTransaction(empId,newAddress);
@@ -88,10 +86,10 @@ public class ChangeEmployeeTransactionTest {
         ChangeEmployeeTransaction changeHourlyTransaction  = new ChangeHourlyTransaction(empId,hourlyPay);
         changeHourlyTransaction.execute();
 
-        Employee e = payrollDatabase.getEmployeeById(empId);
-        HourlyClassification hourlyClassification = (HourlyClassification) e.getPaymentClassification();
+        Employee e = payrollDatabase.getEmployee(empId);
+        HourlyClassification hourlyClassification = (HourlyClassification) e.getClassification();
 
-        assertEquals(e.getPaymentClassification(),hourlyClassification);
+        assertEquals(e.getClassification(),hourlyClassification);
 
     }
 
@@ -112,8 +110,8 @@ public class ChangeEmployeeTransactionTest {
         ChangeSalariedTransaction changeSalariedTransaction = new ChangeSalariedTransaction(empID,monthlyPay);
         changeSalariedTransaction.execute();
 
-        Employee e = payrollDatabase.getEmployeeById(empID);
-        SalariedClassification classification = (SalariedClassification) e.getPaymentClassification();
+        Employee e = payrollDatabase.getEmployee(empID);
+        SalariedClassification classification = (SalariedClassification) e.getClassification();
 
     }
 
@@ -136,8 +134,8 @@ public class ChangeEmployeeTransactionTest {
         ChangeMissionedClassification changeMissionedClassification = new ChangeMissionedClassification(empId,monthlyBase,commissionRate);
         changeMissionedClassification.execute();
 
-        Employee e = payrollDatabase.getEmployeeById(empId);
-        CommissionedClassification commissionedClassification = (CommissionedClassification) e.getPaymentClassification();
+        Employee e = payrollDatabase.getEmployee(empId);
+        CommissionedClassification commissionedClassification = (CommissionedClassification) e.getClassification();
     }
 
     /**
@@ -155,7 +153,7 @@ public class ChangeEmployeeTransactionTest {
         AddSalariedEmployee addSalariedEmployee = new AddSalariedEmployee(id,name,address,monthlyPay);
         addSalariedEmployee.execute();
 
-        Employee e = payrollDatabase.getEmployeeById(id);
+        Employee e = payrollDatabase.getEmployee(id);
         e.setPaymentMethod(holdMethod);
 
         String bank = "bank";
@@ -164,7 +162,7 @@ public class ChangeEmployeeTransactionTest {
         ChangeDirectTransaction changeDirectTransaction = new ChangeDirectTransaction(id,bank,acount);
         changeDirectTransaction.execute();
 
-        assertNotEquals(e.getPaymentMethod(),holdMethod);
+        assertNotEquals(e.getMethod(),holdMethod);
 
 
     }
@@ -182,7 +180,7 @@ public class ChangeEmployeeTransactionTest {
         AddHourlyEmployee addHourlyEmployee = new AddHourlyEmployee(empId,name,address,hourlyPay);
         addHourlyEmployee.execute();
 
-        Employee e = payrollDatabase.getEmployeeById(empId);
+        Employee e = payrollDatabase.getEmployee(empId);
 
         String bank = "bank";
         double accout = 3000;
@@ -208,11 +206,11 @@ public class ChangeEmployeeTransactionTest {
         addSalariedEmployee.execute();
 
         String mailAddress = "BobMail.home";
-        Employee e = payrollDatabase.getEmployeeById(empId);
+        Employee e = payrollDatabase.getEmployee(empId);
 
         ChangeMailMethodTransaction changeMailMethodTransaction = new ChangeMailMethodTransaction(empId,mailAddress);
         changeMailMethodTransaction.execute();
-        System.out.println(e.getPaymentMethod());
+        System.out.println(e.getMethod());
 
     }
 
@@ -233,7 +231,7 @@ public class ChangeEmployeeTransactionTest {
        ChangeEmployeeTransaction changeMemberTransaction = new ChangeMemberTransaction(empId,memberId,99.42);
        changeMemberTransaction.execute();
 
-       Employee employee = payrollDatabase.getEmployeeById(empId);
+       Employee employee = payrollDatabase.getEmployee(empId);
 
        UnionAffiliation af = (UnionAffiliation) employee.getAffiliation();
        Employee member = payrollDatabase.getEmployeeByMemberId(memberId);
@@ -260,7 +258,7 @@ public class ChangeEmployeeTransactionTest {
         AddHourlyEmployee addHourlyEmployee = new AddHourlyEmployee(empId,name,address,hourlyPay);
         addHourlyEmployee.execute();
 
-        Employee e = payrollDatabase.getEmployeeById(empId);
+        Employee e = payrollDatabase.getEmployee(empId);
         e.setAffiliation(unionAffiliation);
 
         payrollDatabase.addUnionMember(memberId,e);

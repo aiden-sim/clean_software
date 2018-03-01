@@ -1,51 +1,45 @@
 package part3.salary;
 
+import org.junit.Test;
 import part3.implement.affiliation.UnionAffiliation;
 import part3.implement.database.PayrollDatabase;
 import part3.implement.entity.Employee;
 import part3.implement.entity.ServiceCharge;
 import part3.implement.transaction.AddHourlyEmployee;
-import part3.implement.transaction.AddServiceChargeTransaction;
-import org.junit.Test;
-
+import part3.implement.transaction.ServiceChargeTransaction;
 import java.util.Date;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 /**
- * 会费扣除测试
- * Created by ZD on 2017/10/24.
+ * 조합 공제 테스트코드
  */
 public class ServiceChargeTransactionTest {
-
     PayrollDatabase payrollDatabase = PayrollDatabase.getPayrollDatabase();
 
     @Test
-    public void testAddServiceChargeTransaction(){
-         int empId = 7;
-         String name = "Bob7";
-         String address = "Bob7.home";
-         double hourlyPay = 25;
+    public void testAddServiceChargeTransaction() {
+        int empId = 2;
+        AddHourlyEmployee t = new AddHourlyEmployee(empId, "Bill", "Home", 15.25);
+        t.execute();
+        Employee e = payrollDatabase.getEmployee(empId);
+        assertNotNull(e);
 
-         int memberId = 1;
-         double amount = 12.5;
-         Date date = new Date();
-
-        AddHourlyEmployee addHourlyEmployee = new AddHourlyEmployee(empId,name,address,hourlyPay);
-        addHourlyEmployee.execute();
-
-        Employee e = payrollDatabase.getEmployeeById(empId);
-
-        UnionAffiliation af = new UnionAffiliation(memberId,amount);
+        UnionAffiliation af = new UnionAffiliation(empId, 12.5);
         e.setAffiliation(af);
 
+        // 조합 추가
+        int memberId = 86;  // Maxwell Smart
+        payrollDatabase.addUnionMember(memberId, e);
 
+        // 공제액 부과
+        ServiceChargeTransaction sct = new ServiceChargeTransaction(memberId, new Date(2001, 11, 01), 12.95);
+        sct.execute();
 
-        payrollDatabase.addUnionMember(memberId,e);
-        AddServiceChargeTransaction serviceChargeTransaction = new AddServiceChargeTransaction(memberId,date,amount);
-        serviceChargeTransaction.execute();
-
-        ServiceCharge serviceCharge = af.getServiceCharge(date);
-        System.out.println(serviceCharge.getAmount());
-
+        ServiceCharge sc = af.getServiceCharge(new Date(2001, 11, 01));
+        assertNotNull(sc);
+        assertEquals(12.95, sc.getAmount(), .001);
     }
 
 }

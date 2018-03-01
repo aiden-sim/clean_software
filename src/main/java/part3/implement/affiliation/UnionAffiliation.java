@@ -9,16 +9,12 @@ import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 协会会员
- * Created by ZD on 2017/10/24.
+ * 노동조합
  */
 public class UnionAffiliation implements Affiliation {
     private long memberID;
-    private double mDues;//会费
+    private double mDues;
     private ConcurrentHashMap<Date, ServiceCharge> serviceCharges = new ConcurrentHashMap<Date, ServiceCharge>();
-
-    public UnionAffiliation() {
-    }
 
     public UnionAffiliation(long memberID, double mDues) {
         this.mDues = mDues;

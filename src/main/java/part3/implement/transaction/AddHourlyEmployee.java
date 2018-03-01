@@ -6,14 +6,14 @@ import part3.implement.schedule.PaymentSchedule;
 import part3.implement.schedule.WeeklySchedule;
 
 /**
- * Created by ZD on 2017/10/24.
+ * 템플릿 메소드 구현부
  */
 public class AddHourlyEmployee extends AddEmployeeTransaction {
 
     private double hourlyPay;
 
-    public AddHourlyEmployee(long id,String name,String address,double hourlyPay){
-        super(id,name,address);
+    public AddHourlyEmployee(int id, String name, String address, double hourlyPay) {
+        super(id, name, address);
         this.hourlyPay = hourlyPay;
     }
 

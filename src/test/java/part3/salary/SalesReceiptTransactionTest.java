@@ -5,7 +5,7 @@ import part3.implement.database.PayrollDatabase;
 import part3.implement.entity.Employee;
 import part3.implement.entity.SalesReceipt;
 import part3.implement.transaction.AddCommissionedEmployee;
-import part3.implement.transaction.AddSalesReceiptTransaction;
+import part3.implement.transaction.SalesReceiptTransaction;
 import org.junit.Test;
 
 import java.util.Date;
@@ -22,31 +22,31 @@ public class SalesReceiptTransactionTest {
     PayrollDatabase payrollDatabase = PayrollDatabase.getPayrollDatabase();
 
     @Test
-    public void testSalesReceiptTransaction(){
+    public void testSalesReceiptTransaction() throws Exception {
 
-        long id = 6;
+        int id = 6;
         String name = "Bob6";
         String address = "Bob6.home";
         double monthlyPay = 1000;
         double commissionRate = 5;
 
-        AddCommissionedEmployee addCommissionedEmployee = new AddCommissionedEmployee(id,name,address,monthlyPay,commissionRate);
+        AddCommissionedEmployee addCommissionedEmployee = new AddCommissionedEmployee(id, name, address, monthlyPay, commissionRate);
         addCommissionedEmployee.execute();
 
-        Date date =  new Date(2017,10,24);
+        Date date = new Date(2017, 10, 24);
         int amount = 3;
 
-        AddSalesReceiptTransaction salesReceiptTransaction = new AddSalesReceiptTransaction(date,3,id);
+        SalesReceiptTransaction salesReceiptTransaction = new SalesReceiptTransaction(date, 3, id);
         salesReceiptTransaction.execute();
 
-        Employee e = payrollDatabase.getEmployeeById(id);
+        Employee e = payrollDatabase.getEmployee(id);
 
-        CommissionedClassification commissionedClassification = (CommissionedClassification) e.getPaymentClassification();
+        CommissionedClassification commissionedClassification = (CommissionedClassification) e.getClassification();
 
         SalesReceipt salesReceipt = commissionedClassification.getSalesReceipt(date);
 
 
-        assertEquals(salesReceipt.getAmount(),3);
+        assertEquals(salesReceipt.getItsAmount(), 3);
 
     }
 
