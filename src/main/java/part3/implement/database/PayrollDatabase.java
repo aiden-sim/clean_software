@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 퍼사드 패턴
+ * DB (퍼사드 패턴 )
  */
 public class PayrollDatabase {
     private static PayrollDatabase payrollDatabase = new PayrollDatabase();
@@ -47,6 +47,7 @@ public class PayrollDatabase {
         unionMembers.remove(memberId);
     }
 
+    // 각각의 직원
     public ArrayList<Employee> getAllEmployees() {
         return new ArrayList<Employee>(employees.values());
     }

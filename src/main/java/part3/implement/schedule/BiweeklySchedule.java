@@ -3,9 +3,6 @@ package part3.implement.schedule;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * Created by ZD on 2017/10/24.
- */
 public class BiweeklySchedule implements PaymentSchedule {
 
     public boolean isPayDate(Date date) {

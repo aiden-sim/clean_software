@@ -6,17 +6,14 @@ import part3.implement.schedule.MonthlySchedule;
 import part3.implement.schedule.PaymentSchedule;
 
 /**
- * Created by ZD on 2017/10/25.
+ * 직원 임금 변경 (일반)
  */
 public class ChangeSalariedTransaction extends ChangeClassificationTransaction {
+    private double itsSalary;
 
-    private double monthlyPay;
-
-    public ChangeSalariedTransaction(){}
-
-    public ChangeSalariedTransaction(double empId,double monthlyPay){
-        super((int) empId);
-        this.monthlyPay = monthlyPay;
+    public ChangeSalariedTransaction(int empId, double salary) {
+        super(empId);
+        this.itsSalary = salary;
     }
 
     protected PaymentSchedule getSchedule() {
@@ -24,6 +21,6 @@ public class ChangeSalariedTransaction extends ChangeClassificationTransaction {
     }
 
     protected PaymentClassification getClassification() {
-        return new SalariedClassification(monthlyPay);
+        return new SalariedClassification(itsSalary);
     }
 }

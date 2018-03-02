@@ -41,7 +41,7 @@ public class AddEmployTransactionTest {
         PaymentClassification pc = e.getClassification();
         SalariedClassification sc = (SalariedClassification) pc;
         assertNotNull(sc);
-        assertEquals(1000.00, sc.getMonthlyPay(), .001);
+        assertEquals(1000.00, sc.getSalary(), .001);
 
         PaymentSchedule ps = e.getSchedule();
         MonthlySchedule ms = (MonthlySchedule) ps;
@@ -66,7 +66,7 @@ public class AddEmployTransactionTest {
 
         PaymentClassification pc = e.getClassification();
         HourlyClassification hc = (HourlyClassification)pc;
-        assertEquals(150, hc.getHourlyPay(), 0.01);
+        assertEquals(150, hc.getRate(), 0.01);
     }
 
 

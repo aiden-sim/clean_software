@@ -33,6 +33,4 @@ public class DeleteEmployeeTransactionTest {
             assertNull(e);
         }
     }
-
-
 }

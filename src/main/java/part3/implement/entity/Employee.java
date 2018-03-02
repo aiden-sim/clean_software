@@ -10,56 +10,55 @@ import part3.implement.schedule.PaymentSchedule;
 import java.util.Date;
 
 /**
- * Created by ZD on 2017/10/24.
+ * 직원
  */
 public class Employee {
-
     private int id;
     private String name;
     private String address;
 
-    PaymentMethod paymentMethod;
-    PaymentSchedule paymentSchedule;
-    PaymentClassification paymentClassification;
-    Affiliation affiliation;
+    PaymentMethod itsPaymentMethod;
+    PaymentClassification itsClassification;
+    Affiliation itsAffiliation;
+    PaymentSchedule itsPaymentSchedule;
 
     public Employee(long id, String name, String address) {
         this.id = (int) id;
         this.name = name;
         this.address = address;
-        affiliation = new NoAffiliation();
+        itsAffiliation = new NoAffiliation();
     }
 
     public PaymentClassification getClassification() {
-        return paymentClassification;
+        return itsClassification;
     }
 
     public PaymentSchedule getSchedule() {
-        return paymentSchedule;
+        return itsPaymentSchedule;
     }
 
     public PaymentMethod getMethod() {
-        return  paymentMethod;
+        return itsPaymentMethod;
     }
 
     public void setClassification(PaymentClassification classification) {
-        this.paymentClassification = classification;
+        this.itsClassification = classification;
     }
 
-    public void setSchedule(PaymentSchedule schedule) {
-        this.paymentSchedule = schedule;
+    public void setSchedule(PaymentSchedule paymentSchedule) {
+        this.itsPaymentSchedule = paymentSchedule;
     }
 
-    public void setMethod(PaymentMethod method) {
-        this.paymentMethod = method;
+    public void setMethod(PaymentMethod paymentMethod) {
+        this.itsPaymentMethod = paymentMethod;
     }
 
-    public void setAffiliation(Affiliation affiliation) {
-        this.affiliation = affiliation;
+    public void setItsAffiliation(Affiliation affiliation) {
+        this.itsAffiliation = affiliation;
     }
 
-    public Affiliation getAffiliation() {
-        return affiliation;
+    public Affiliation getItsAffiliation() {
+        return itsAffiliation;
     }
 
     public void setName(String name) {
@@ -78,22 +77,22 @@ public class Employee {
         return address;
     }
 
-    public void setPaymentMethod(PaymentMethod paymentMethod) {
-        this.paymentMethod = paymentMethod;
+    public void setItsPaymentMethod(PaymentMethod itsPaymentMethod) {
+        this.itsPaymentMethod = itsPaymentMethod;
     }
 
-    public void payDay(PayCheck payCheck) {
-        double grossPay = paymentClassification.calculatePay(payCheck);
-        double deductions = affiliation.calculateDeductions(payCheck);
+    public void payDay(PayCheck pc) {
+        double grossPay = itsClassification.calculatePay(pc); // 총 급여
+        double deductions = itsAffiliation.calculateDeductions(pc); // 공제
         double netPay = grossPay - deductions;
-        payCheck.setGrossPay(grossPay);
-        payCheck.setDetuctions(deductions);
-        payCheck.setNetPay(netPay);
-        paymentMethod.pay(payCheck);
+        pc.setGrossPay(grossPay);
+        pc.setDetuctions(deductions);
+        pc.setNetPay(netPay);
+        itsPaymentMethod.pay(pc);
     }
 
     public boolean isPayDate(Date date) {
-        return paymentSchedule.isPayDate(date);
+        return itsPaymentSchedule.isPayDate(date);
     }
 
     public Integer getEmpId() {
@@ -101,6 +100,6 @@ public class Employee {
     }
 
     public Date getPayPeriodSatrtDate(Date date) {
-        return paymentSchedule.getPayPeriodStartDate(date);
+        return itsPaymentSchedule.getPayPeriodStartDate(date);
     }
 }

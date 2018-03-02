@@ -3,16 +3,13 @@ package part3.implement.transaction;
 import part3.implement.entity.Employee;
 
 /**
- * Created by ZD on 2017/10/24.
+ * 직원 이름 변경
  */
 public class ChangeNameTransaction extends ChangeEmployeeTransaction {
-
     private String name;
 
-    public ChangeNameTransaction(){}
-
-    public ChangeNameTransaction(long empID,String name){
-        super((int) empID);
+    public ChangeNameTransaction(int empId, String name) {
+        super(empId);
         this.name = name;
     }
 

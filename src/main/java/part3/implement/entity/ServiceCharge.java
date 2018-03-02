@@ -3,8 +3,7 @@ package part3.implement.entity;
 import java.util.Date;
 
 /**
- *会费
- * Created by ZD on 2017/10/24.
+ * 조합 부과액
  */
 public class ServiceCharge {
 

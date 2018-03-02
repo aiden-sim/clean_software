@@ -1,250 +1,252 @@
 package part3.salary;
 
+import part3.implement.affiliation.Affiliation;
 import part3.implement.affiliation.UnionAffiliation;
 import part3.implement.classification.CommissionedClassification;
 import part3.implement.classification.HourlyClassification;
+import part3.implement.classification.PaymentClassification;
 import part3.implement.classification.SalariedClassification;
 import part3.implement.database.PayrollDatabase;
 import part3.implement.entity.Employee;
 import part3.implement.method.DirectMethod;
 import part3.implement.method.HoldMethod;
+import part3.implement.schedule.BiweeklySchedule;
+import part3.implement.schedule.MonthlySchedule;
+import part3.implement.schedule.PaymentSchedule;
+import part3.implement.schedule.WeeklySchedule;
 import part3.implement.transaction.*;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 /**
- * 更改雇员属性测试
- * Created by ZD on 2017/10/24.
+ * 직원변경
  */
 public class ChangeEmployeeTransactionTest {
 
     PayrollDatabase payrollDatabase = PayrollDatabase.getPayrollDatabase();
 
     /**
-     * 改变员工名称
+     * 직원 이름 변경
      */
     @Test
-    public void testChangeNameTransaction(){
+    public void testChangeNameTransaction() {
+        int empId = 2;
+        AddHourlyEmployee t = new AddHourlyEmployee(empId, "Bill", "Home", 15.25);
+        t.execute();
 
-        int empID = 1;
-        String name = "Bob1";
-        String address = "Bob1.home";
-        double monthlyPay = 2000;
-
-        String newName = "Bob";
-
-        AddSalariedEmployee addSalariedEmployee = new AddSalariedEmployee(empID,name,address,monthlyPay);
-        addSalariedEmployee.execute();
-
-        Employee e = payrollDatabase.getEmployee(empID);
-
-        ChangeNameTransaction changeNameTransaction = new ChangeNameTransaction(empID,newName);
+        // 이름 변경
+        ChangeNameTransaction changeNameTransaction = new ChangeNameTransaction(empId, "Bob");
         changeNameTransaction.execute();
 
-
-        assertEquals(newName,e.getName());
+        Employee e = payrollDatabase.getEmployee(empId);
+        assertNotNull(e);
+        assertEquals("Bob", e.getName());
     }
 
     /**
-     * 改变员工地址
+     * 직원 주소 변경
      */
     @Test
-    public void testChangeAddressTransaction(){
+    public void testChangeAddressTransaction() {
         int empId = 2;
-        String name = "Bob";
-        String address = "Bob.home";
-        double monthlyPay =  2000;
+        AddHourlyEmployee t = new AddHourlyEmployee(empId, "Bill", "Home", 15.25);
+        t.execute();
 
-        AddSalariedEmployee addSalariedEmployee = new AddSalariedEmployee(empId,name,address,monthlyPay);
-        addSalariedEmployee.execute();
-
-        Employee e = payrollDatabase.getEmployee(empId);
-        String newAddress = "Bob.address";
-
-        ChangeEmployeeTransaction changeAddressTransaction = new ChangeAddressTransaction(empId,newAddress);
+        // 주소 변경
+        ChangeEmployeeTransaction changeAddressTransaction = new ChangeAddressTransaction(empId, "Home2");
         changeAddressTransaction.execute();
 
-        assertEquals(e.getAddress(),newAddress);
+        Employee e = payrollDatabase.getEmployee(empId);
+        assertNotNull(e);
+        assertEquals("Home2", e.getAddress());
     }
 
     /**
-     * 改变员工属性-->转为小时工
+     * 직원 타입 변경 (알바)
      */
     @Test
-    public void testChangeHourlyClassificationTransaction(){
+    public void testChangeHourlyClassificationTransaction() {
         int empId = 3;
-        String name = "Bob";
-        String address = "Bob.home";
-        double monthlyPsay = 3000;
-        double commissionRate = 5;
 
-        AddCommissionedEmployee addCommissionedEmployee = new AddCommissionedEmployee(empId,name,address,monthlyPsay,commissionRate);
-        addCommissionedEmployee.execute();
+        AddCommissionedEmployee t = new AddCommissionedEmployee(empId, "Lance", "Home", 2500, 3.2);
+        t.execute();
 
-        double hourlyPay = 15;
-        ChangeEmployeeTransaction changeHourlyTransaction  = new ChangeHourlyTransaction(empId,hourlyPay);
-        changeHourlyTransaction.execute();
+        // 직원 타입 변경
+        ChangeHourlyTransaction cht = new ChangeHourlyTransaction(empId, 27.52);
+        cht.execute();
 
         Employee e = payrollDatabase.getEmployee(empId);
-        HourlyClassification hourlyClassification = (HourlyClassification) e.getClassification();
+        assertNotNull(e);
 
-        assertEquals(e.getClassification(),hourlyClassification);
+        PaymentClassification pc = e.getClassification();
+        assertNotNull(pc);
 
+        HourlyClassification hc = (HourlyClassification) pc;
+        assertNotNull(hc);
+        assertEquals(27.52, hc.getRate(), .001);
+
+        PaymentSchedule ps = e.getSchedule();
+        WeeklySchedule ws = (WeeklySchedule) ps;
+        assertNotNull(ws);
     }
 
     /**
-     * 改变员工属性-->转为正常员工
+     * 직원 타입 변경 (일반)
      */
     @Test
-    public void changeSalariedTransaction(){
-        int empID = 4;
-        String name = "Bob";
-        String address = "Bob.home";
-        double hourlyPay = 30;
+    public void testChangeSalariedTransaction() {
+        int empId = 3;
 
-        AddHourlyEmployee addHourlyEmployee = new AddHourlyEmployee(empID,name,address,hourlyPay);
+        AddHourlyEmployee addHourlyEmployee = new AddHourlyEmployee(empId, "Lance", "Home", 10);
         addHourlyEmployee.execute();
 
-        double monthlyPay = 3000;
-        ChangeSalariedTransaction changeSalariedTransaction = new ChangeSalariedTransaction(empID,monthlyPay);
-        changeSalariedTransaction.execute();
-
-        Employee e = payrollDatabase.getEmployee(empID);
-        SalariedClassification classification = (SalariedClassification) e.getClassification();
-
-    }
-
-    /**
-     * 改变员工属性-->转为带薪员工
-     */
-    @Test
-    public void changeCommissionedTransaction(){
-        int empId = 5;
-        String name = "Bob";
-        String address = "Bob.home";
-        double monthlyPay = 3300;
-
-        AddSalariedEmployee addSalariedEmployee = new AddSalariedEmployee(empId,name,address,monthlyPay);
-        addSalariedEmployee.execute();
-
-        double monthlyBase = 3000;
-        double commissionRate = 5;
-
-        ChangeMissionedClassification changeMissionedClassification = new ChangeMissionedClassification(empId,monthlyBase,commissionRate);
-        changeMissionedClassification.execute();
+        // 직원 타입 변경
+        ChangeSalariedTransaction cst = new ChangeSalariedTransaction(empId, 300);
+        cst.execute();
 
         Employee e = payrollDatabase.getEmployee(empId);
-        CommissionedClassification commissionedClassification = (CommissionedClassification) e.getClassification();
+        assertNotNull(e);
+
+        PaymentClassification pc = e.getClassification();
+        assertNotNull(pc);
+
+        SalariedClassification sc = (SalariedClassification) pc;
+        assertNotNull(sc);
+        assertEquals(300, sc.getSalary(), .001);
+
+        PaymentSchedule ps = e.getSchedule();
+        MonthlySchedule ms = (MonthlySchedule) ps;
+        assertNotNull(ms);
+
     }
 
     /**
-     * 改变支付方式-->直接存款
+     * 직원 타입 변경 (영업)
      */
     @Test
-    public void testChangeDirectTransaction(){
-        int id = 1;
-        String name = "Bob";
-        String address = "Bob.home";
-        double monthlyPay = 4000;
+    public void testChangeCommissionedTransaction() {
+        int empId = 3;
 
-        HoldMethod holdMethod = new HoldMethod();
-
-        AddSalariedEmployee addSalariedEmployee = new AddSalariedEmployee(id,name,address,monthlyPay);
+        AddSalariedEmployee addSalariedEmployee = new AddSalariedEmployee(empId, "Lance", "Home", 3300);
         addSalariedEmployee.execute();
 
-        Employee e = payrollDatabase.getEmployee(id);
-        e.setPaymentMethod(holdMethod);
+        // 직원 타입 변경
+        ChangeCommissionedTransaction cct = new ChangeCommissionedTransaction(empId, 3000, 5);
+        cct.execute();
 
-        String bank = "bank";
-        double acount = 4000;
+        Employee e = payrollDatabase.getEmployee(empId);
+        assertNotNull(e);
 
-        ChangeDirectTransaction changeDirectTransaction = new ChangeDirectTransaction(id,bank,acount);
+        PaymentClassification pc = e.getClassification();
+        assertNotNull(pc);
+
+        CommissionedClassification cc = (CommissionedClassification) pc;
+        assertNotNull(cc);
+
+        PaymentSchedule ps = e.getSchedule();
+        BiweeklySchedule bs = (BiweeklySchedule) ps;
+        assertNotNull(bs);
+    }
+
+    /**
+     * 임금 지급 방식 변경 (은행으로)
+     */
+    @Test
+    public void testChangeDirectTransaction() {
+        int empId = 1;
+
+        AddSalariedEmployee addSalariedEmployee = new AddSalariedEmployee(empId, "Bob", "Home", 4000);
+        addSalariedEmployee.execute();
+
+        Employee e = payrollDatabase.getEmployee(empId);
+        // 담당자에게 직접 받기 설정
+        HoldMethod holdMethod = new HoldMethod();
+        e.setItsPaymentMethod(holdMethod);
+
+        // 은행으로 받는걸로 변경
+        ChangeDirectTransaction changeDirectTransaction = new ChangeDirectTransaction(empId, "bank", 4000);
         changeDirectTransaction.execute();
 
-        assertNotEquals(e.getMethod(),holdMethod);
-
-
+        assertNotEquals(e.getMethod(), holdMethod);
     }
 
     /**
-     * 改变支付方式-->持有支票
+     * 임금 지급 방식 변경 (담당자에게)
      */
     @Test
-    public void testChangeHoldMethod(){
+    public void testChangeHoldMethod() {
         int empId = 1;
-        String name = "Bob";
-        String address = "Bob.home";
-        double hourlyPay = 25;
 
-        AddHourlyEmployee addHourlyEmployee = new AddHourlyEmployee(empId,name,address,hourlyPay);
+        AddHourlyEmployee addHourlyEmployee = new AddHourlyEmployee(empId, "Bob", "Home", 25);
         addHourlyEmployee.execute();
 
         Employee e = payrollDatabase.getEmployee(empId);
+        // 은행으로 받기 설정
+        DirectMethod directMethod = new DirectMethod("bank", 3000);
+        e.setItsPaymentMethod(directMethod);
 
-        String bank = "bank";
-        double accout = 3000;
-
-        DirectMethod directMethod = new DirectMethod(bank,accout);
-        e.setPaymentMethod(directMethod);
-
+        // 담당자에게 받는걸로 변경
         ChangeHoldMethodTransaction changeHoldMethodTransaction = new ChangeHoldMethodTransaction(empId);
         changeHoldMethodTransaction.execute();
+
+        assertNotEquals(e.getMethod(), directMethod);
     }
 
     /**
-     * 改变支付方式-->邮寄
+     * 임금 지급 방식 변경 (우편으로)
      */
     @Test
-    public void testChangeMailMethod(){
+    public void testChangeMailMethod() {
         int empId = 1;
-        String name = "Bob";
-        String address = "Bob.home";
-        double monthlyPay = 3000;
 
-        AddSalariedEmployee addSalariedEmployee = new AddSalariedEmployee(empId,name,address,monthlyPay);
+        AddSalariedEmployee addSalariedEmployee = new AddSalariedEmployee(empId, "Bob", "Home", 3000);
         addSalariedEmployee.execute();
 
-        String mailAddress = "BobMail.home";
         Employee e = payrollDatabase.getEmployee(empId);
+        // 은행으로 받기 설정
+        DirectMethod directMethod = new DirectMethod("bank", 3000);
+        e.setItsPaymentMethod(directMethod);
 
-        ChangeMailMethodTransaction changeMailMethodTransaction = new ChangeMailMethodTransaction(empId,mailAddress);
+        // 우편으로 받는걸로 변경
+        ChangeMailMethodTransaction changeMailMethodTransaction = new ChangeMailMethodTransaction(empId, "Home");
         changeMailMethodTransaction.execute();
-        System.out.println(e.getMethod());
 
+        assertNotEquals(e.getMethod(), directMethod);
     }
 
     /**
-     * 改变员工属性-->加入协会
+     * 조합 변경 (멤버)
      */
     @Test
-    public void testChangeMemberTransaction(){
-       int empId = 1;
-       String name = "Bob";
-       String address = "Bob.home";
-       double monthlyPay = 3000;
+    public void testChangeMemberTransaction() {
+        int empId = 2;
+        int memberId = 7734;
 
-       AddSalariedEmployee addSalariedEmployee = new AddSalariedEmployee(empId,name,address,monthlyPay);
-       addSalariedEmployee.execute();
+        AddSalariedEmployee t = new AddSalariedEmployee(empId, "Bill", "Home", 15.25);
+        t.execute();
 
-       int memberId = 20;
-       ChangeEmployeeTransaction changeMemberTransaction = new ChangeMemberTransaction(empId,memberId,99.42);
-       changeMemberTransaction.execute();
+        ChangeMemberTransaction cmt = new ChangeMemberTransaction(empId, memberId, 99.42);
+        cmt.execute();
 
-       Employee employee = payrollDatabase.getEmployee(empId);
+        Employee e = payrollDatabase.getEmployee(empId);
+        assertNotNull(e);
 
-       UnionAffiliation af = (UnionAffiliation) employee.getAffiliation();
-       Employee member = payrollDatabase.getEmployeeByMemberId(memberId);
+        Affiliation af = e.getItsAffiliation();
+        UnionAffiliation uf = (UnionAffiliation) af;
+        assertNotNull(uf);
+        assertEquals(99.42, uf.getmDues(), .001);
 
-       assertEquals(member,employee);
-
+        Employee member = payrollDatabase.getEmployeeByMemberId(memberId);
+        assertNotNull(member);
+        assertEquals(e, member);
     }
 
     /**
-     * 改变员工属性-->退出协会
+     * 조합 변경 (가입해제)
      */
     @Test
-    public void testChangeUnaffiliatedTransaction(){
+    public void testChangeUnaffiliatedTransaction() {
         int empId = 2;
         String name = "Bob";
         String address = "Bob.home";
@@ -253,17 +255,17 @@ public class ChangeEmployeeTransactionTest {
         int memberId = 4;
         double dues = 10;
 
-        UnionAffiliation unionAffiliation = new UnionAffiliation(memberId,dues);
+        UnionAffiliation unionAffiliation = new UnionAffiliation(memberId, dues);
 
-        AddHourlyEmployee addHourlyEmployee = new AddHourlyEmployee(empId,name,address,hourlyPay);
+        AddHourlyEmployee addHourlyEmployee = new AddHourlyEmployee(empId, name, address, hourlyPay);
         addHourlyEmployee.execute();
 
         Employee e = payrollDatabase.getEmployee(empId);
-        e.setAffiliation(unionAffiliation);
+        e.setItsAffiliation(unionAffiliation);
 
-        payrollDatabase.addUnionMember(memberId,e);
+        payrollDatabase.addUnionMember(memberId, e);
 
-        System.out.println(e.getAffiliation());
+        System.out.println(e.getItsAffiliation());
 
         ChangeUnaffiliatedTransaction changeUnaffiliatedTransation = new ChangeUnaffiliatedTransaction(empId);
         changeUnaffiliatedTransation.execute();

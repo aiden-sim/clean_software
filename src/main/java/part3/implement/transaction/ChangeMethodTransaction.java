@@ -4,20 +4,19 @@ import part3.implement.entity.Employee;
 import part3.implement.method.PaymentMethod;
 
 /**
- * Created by ZD on 2017/10/26.
+ * 임금 지급 방식 변경
  */
-public abstract class ChangeMethodTransaction extends ChangeEmployeeTransaction  {
+public abstract class ChangeMethodTransaction extends ChangeEmployeeTransaction {
 
-    public ChangeMethodTransaction(){}
+    protected abstract PaymentMethod getPaymentMethod();
 
-    public ChangeMethodTransaction(int empId){
+    public ChangeMethodTransaction(int empId) {
         super(empId);
     }
 
     @Override
     public void change(Employee e) {
-        e.setPaymentMethod(getPaymentMethod());
+        e.setItsPaymentMethod(getPaymentMethod());
     }
 
-    protected abstract PaymentMethod getPaymentMethod();
 }

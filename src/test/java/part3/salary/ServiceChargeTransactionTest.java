@@ -27,7 +27,7 @@ public class ServiceChargeTransactionTest {
         assertNotNull(e);
 
         UnionAffiliation af = new UnionAffiliation(empId, 12.5);
-        e.setAffiliation(af);
+        e.setItsAffiliation(af);
 
         // 조합 추가
         int memberId = 86;  // Maxwell Smart
@@ -41,5 +41,4 @@ public class ServiceChargeTransactionTest {
         assertNotNull(sc);
         assertEquals(12.95, sc.getAmount(), .001);
     }
-
 }

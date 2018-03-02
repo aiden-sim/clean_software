@@ -5,9 +5,6 @@ import part3.implement.util.DateUtil;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * Created by ZD on 2017/10/24.
- */
 public class WeeklySchedule implements PaymentSchedule {
 
 

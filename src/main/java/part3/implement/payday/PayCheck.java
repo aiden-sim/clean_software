@@ -4,18 +4,18 @@ import java.util.Date;
 import java.util.Hashtable;
 
 /**
- * Created by ZD on 2017/10/26.
+ * 월급
  */
 public class PayCheck {
 
     private Date payDate;
-    private final Date payPeriodStartDate;//支付开始时间
-    private double grossPay;//静资产
-    private Hashtable<String,String> fields = new Hashtable<String, String>();
-    private double detuctions;//会费
-    private double netPay;//最后结余
+    private final Date payPeriodStartDate;
+    private double grossPay;
+    private Hashtable<String, String> fields = new Hashtable<String, String>();
+    private double detuctions;
+    private double netPay;
 
-    public PayCheck(Date payPeriodStartDate,Date payDate){
+    public PayCheck(Date payPeriodStartDate, Date payDate) {
         this.payDate = payDate;
         this.payPeriodStartDate = payPeriodStartDate;
     }
@@ -57,8 +57,8 @@ public class PayCheck {
         this.payDate = payDate;
     }
 
-    public void setFields(String fieldName,String value) {
-        fields.put(fieldName,value);
+    public void setFields(String fieldName, String value) {
+        fields.put(fieldName, value);
     }
 
     public void setDetuctions(double detuctions) {

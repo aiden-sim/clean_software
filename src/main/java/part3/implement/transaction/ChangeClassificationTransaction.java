@@ -6,25 +6,20 @@ import part3.implement.entity.Employee;
 import part3.implement.schedule.PaymentSchedule;
 
 /**
- * 更改类别
- * Created by ZD on 2017/10/25.
+ * 직원 임금 종류 변경 ( 템플릿 메소드 )
  */
 public abstract class ChangeClassificationTransaction extends ChangeEmployeeTransaction {
+    protected abstract PaymentClassification getClassification();
 
-    public ChangeClassificationTransaction(){}
+    protected abstract PaymentSchedule getSchedule();
 
-    public ChangeClassificationTransaction(int empId){
+    public ChangeClassificationTransaction(int empId) {
         super(empId);
     }
 
+    // 템플릿 메소드
     public void change(Employee e) {
         e.setClassification(getClassification());
         e.setSchedule(getSchedule());
     }
-
-    protected abstract PaymentSchedule getSchedule();
-
-    protected abstract PaymentClassification getClassification();
-
-
 }

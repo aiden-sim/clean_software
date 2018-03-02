@@ -3,17 +3,13 @@ package part3.implement.transaction;
 import part3.implement.entity.Employee;
 
 /**
- * Created by ZD on 2017/10/25.
+ * 직원 주소 변경
  */
 public class ChangeAddressTransaction extends ChangeEmployeeTransaction {
+    private String address;
 
-    long empId;
-    String address;
-
-    public ChangeAddressTransaction(){}
-
-    public ChangeAddressTransaction(long empId,String address){
-        super((int) empId);
+    public ChangeAddressTransaction(int empId, String address) {
+        super(empId);
         this.address = address;
     }
 

@@ -12,11 +12,11 @@ import java.util.concurrent.ConcurrentHashMap;
  * 노동조합
  */
 public class UnionAffiliation implements Affiliation {
-    private long memberID;
+    private int memberID;
     private double mDues;
     private ConcurrentHashMap<Date, ServiceCharge> serviceCharges = new ConcurrentHashMap<Date, ServiceCharge>();
 
-    public UnionAffiliation(long memberID, double mDues) {
+    public UnionAffiliation(int memberID, double mDues) {
         this.mDues = mDues;
         this.memberID = memberID;
     }
@@ -25,7 +25,7 @@ public class UnionAffiliation implements Affiliation {
         return mDues;
     }
 
-    public long getMemberID() {
+    public int getMemberID() {
         return memberID;
     }
 
@@ -37,26 +37,9 @@ public class UnionAffiliation implements Affiliation {
         serviceCharges.put(serviceCharge.getDate(), serviceCharge);
     }
 
-    public double calculateDeductions(PayCheck payCheck) {
-        double totalDues = 0;
-        int fridays = NumberOfFridaysInPayPeriod(payCheck.getPayPeriodStartDate(), payCheck.getPayPeriodEndDate());
-        totalDues = mDues * fridays;//每月固定费用
-
-        //其他费用
-        for (ServiceCharge charge : serviceCharges.values()) {
-            if (DateUtil.IsInPayPeriod(charge.getDate(), payCheck.getPayPeriodStartDate(), payCheck.getPayPeriodEndDate()))
-                totalDues += charge.getAmount();
-        }
-
-        return totalDues;
-    }
 
     /**
-     * 支付周五天数
-     *
-     * @param payPeriodStartDate
-     * @param payPeriodEndDate
-     * @return
+     * 금요일 횟수 계산
      */
     private int NumberOfFridaysInPayPeriod(Date payPeriodStartDate, Date payPeriodEndDate) {
         Calendar calendar = Calendar.getInstance();
@@ -73,4 +56,23 @@ public class UnionAffiliation implements Affiliation {
         }
         return firdays;
     }
+
+    /**
+     * 조합비 계산
+     */
+    public double calculateDeductions(PayCheck payCheck) {
+        double totalDues = 0;
+
+        int fridays = NumberOfFridaysInPayPeriod(payCheck.getPayPeriodStartDate(), payCheck.getPayPeriodEndDate());
+        totalDues = mDues * fridays;
+
+        // 공제액 합
+        for (ServiceCharge charge : serviceCharges.values()) {
+            if (DateUtil.IsInPayPeriod(charge.getDate(), payCheck.getPayPeriodStartDate(), payCheck.getPayPeriodEndDate()))
+                totalDues += charge.getAmount();
+        }
+
+        return totalDues;
+    }
+
 }

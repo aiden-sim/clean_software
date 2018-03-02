@@ -6,17 +6,15 @@ import part3.implement.schedule.BiweeklySchedule;
 import part3.implement.schedule.PaymentSchedule;
 
 /**
- * Created by ZD on 2017/10/25.
+ * 직원 임금 변경 (영업)
  */
-public class ChangeMissionedClassification extends ChangeClassificationTransaction {
+public class ChangeCommissionedTransaction extends ChangeClassificationTransaction {
 
     private double salaryBase;
     private double commissionRate;
 
-    public ChangeMissionedClassification(){}
-
-    public ChangeMissionedClassification(long empId,double salaryBase,double commissionRate){
-        super((int) empId);
+    public ChangeCommissionedTransaction(int empId, double salaryBase, double commissionRate) {
+        super(empId);
         this.commissionRate = commissionRate;
         this.salaryBase = salaryBase;
     }
@@ -26,6 +24,6 @@ public class ChangeMissionedClassification extends ChangeClassificationTransacti
     }
 
     protected PaymentClassification getClassification() {
-        return new CommissionedClassification(salaryBase,commissionRate);
+        return new CommissionedClassification(salaryBase, commissionRate);
     }
 }

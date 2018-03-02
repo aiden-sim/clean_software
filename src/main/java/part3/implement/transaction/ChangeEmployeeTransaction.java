@@ -4,24 +4,21 @@ import part3.implement.database.PayrollDatabase;
 import part3.implement.entity.Employee;
 
 /**
- * Created by ZD on 2017/10/24.
+ * 직원 변경 (템플릿 메소드)
  */
 public abstract class ChangeEmployeeTransaction implements Transaction {
+    private int isEmpId;
 
-    private int empID;
+    public abstract void change(Employee e);
 
-    public ChangeEmployeeTransaction(int empID) {
-        this.empID = empID;
+    public ChangeEmployeeTransaction(int empId) {
+        this.isEmpId = empId;
     }
 
-    public ChangeEmployeeTransaction(){}
-
     public void execute() {
-        Employee e = PayrollDatabase.getPayrollDatabase().getEmployee(empID);
-        if (e != null){
+        Employee e = PayrollDatabase.getPayrollDatabase().getEmployee(isEmpId);
+        if (e != null) {
             change(e);
         }
     }
-
-    public abstract void change(Employee e);
 }

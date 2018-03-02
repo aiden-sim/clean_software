@@ -13,9 +13,7 @@ import java.util.Date;
 import static org.junit.Assert.assertEquals;
 
 /**
- * 销售记录测试
- * 销售记录只有带薪人员才有
- * Created by ZD on 2017/10/24.
+ * 영수증 테스트
  */
 public class SalesReceiptTransactionTest {
 
@@ -23,18 +21,12 @@ public class SalesReceiptTransactionTest {
 
     @Test
     public void testSalesReceiptTransaction() throws Exception {
+        int id = 2;
 
-        int id = 6;
-        String name = "Bob6";
-        String address = "Bob6.home";
-        double monthlyPay = 1000;
-        double commissionRate = 5;
-
-        AddCommissionedEmployee addCommissionedEmployee = new AddCommissionedEmployee(id, name, address, monthlyPay, commissionRate);
+        AddCommissionedEmployee addCommissionedEmployee = new AddCommissionedEmployee(id, "Bob", "Home", 1000, 5);
         addCommissionedEmployee.execute();
 
         Date date = new Date(2017, 10, 24);
-        int amount = 3;
 
         SalesReceiptTransaction salesReceiptTransaction = new SalesReceiptTransaction(date, 3, id);
         salesReceiptTransaction.execute();
@@ -45,9 +37,7 @@ public class SalesReceiptTransactionTest {
 
         SalesReceipt salesReceipt = commissionedClassification.getSalesReceipt(date);
 
-
         assertEquals(salesReceipt.getItsAmount(), 3);
-
     }
 
 }

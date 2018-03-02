@@ -3,7 +3,7 @@ package part3.implement.method;
 import part3.implement.payday.PayCheck;
 
 /**
- * Created by ZD on 2017/10/26.
+ * 임금 지급 방법 (우편 발송)
  */
 public class MailMethod implements PaymentMethod {
 

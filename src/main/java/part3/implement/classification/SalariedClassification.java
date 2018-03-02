@@ -3,7 +3,7 @@ package part3.implement.classification;
 import part3.implement.payday.PayCheck;
 
 /**
- * Created by ZD on 2017/10/24.
+ * 임금 지금방식 (일반)
  */
 public class SalariedClassification implements PaymentClassification {
 
@@ -13,7 +13,7 @@ public class SalariedClassification implements PaymentClassification {
         this.itsSalary = salary;
     }
 
-    public double getMonthlyPay() {
+    public double getSalary() {
         return itsSalary;
     }
 

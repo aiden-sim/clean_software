@@ -15,19 +15,19 @@ import java.util.Date;
 public class ServiceChargeTransaction implements Transaction {
     private int itsMemberId;
     private Date itsDate;
-    private double itsAmount;
+    private double itsCharge;
 
-    public ServiceChargeTransaction(int memberId, Date date, double amount) {
+    public ServiceChargeTransaction(int memberId, Date date, double charge) {
         this.itsMemberId = memberId;
         this.itsDate = date;
-        this.itsAmount = amount;
+        this.itsCharge = charge;
     }
 
     public void execute() {
         Employee e = PayrollDatabase.getPayrollDatabase().getEmployeeByMemberId(itsMemberId);
-        Affiliation af = e.getAffiliation();
+        Affiliation af = e.getItsAffiliation();
         if (af instanceof UnionAffiliation) {
-            ((UnionAffiliation) af).addServiceCharge(new ServiceCharge(itsDate, itsAmount));
+            ((UnionAffiliation) af).addServiceCharge(new ServiceCharge(itsDate, itsCharge));
         }
     }
 }

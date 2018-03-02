@@ -6,24 +6,21 @@ import part3.implement.schedule.PaymentSchedule;
 import part3.implement.schedule.WeeklySchedule;
 
 /**
- * Created by ZD on 2017/10/25.
+ * 직원 임금 변경 (알바)
  */
 public class ChangeHourlyTransaction extends ChangeClassificationTransaction {
+    private double itsHourlyRate;
 
-    private double hourlyRate;
-
-    public ChangeHourlyTransaction(){}
-
-    public ChangeHourlyTransaction(long empId,double hourlyRate){
-        super((int) empId);
-        this.hourlyRate = hourlyRate;
+    public ChangeHourlyTransaction(int empId, double hourlyRate) {
+        super(empId);
+        this.itsHourlyRate = hourlyRate;
     }
 
-    public PaymentSchedule getSchedule(){
+    public PaymentSchedule getSchedule() {
         return new WeeklySchedule();
     }
 
-    public PaymentClassification getClassification(){
-        return new HourlyClassification(hourlyRate);
+    public PaymentClassification getClassification() {
+        return new HourlyClassification(itsHourlyRate);
     }
 }
