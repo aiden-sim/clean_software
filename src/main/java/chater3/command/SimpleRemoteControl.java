@@ -1,7 +1,32 @@
 package chater3.command;
 
-/**
- * Created by simjunbo on 2018. 2. 27..
+/*
+Invoker
  */
 public class SimpleRemoteControl {
+
+    Command slot;
+
+
+
+    public SimpleRemoteControl() {
+
+    }
+
+
+
+    public void setCommand(Command command) {
+
+        slot = command;
+
+    }
+
+
+
+    public void buttonWasPressed() {
+
+        slot.execute();
+
+    }
+
 }

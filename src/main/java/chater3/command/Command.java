@@ -1,7 +1,10 @@
 package chater3.command;
 
-/**
- * Created by simjunbo on 2018. 2. 27..
+/*
+Command
  */
 public interface Command {
+
+    public void execute();
+
 }
