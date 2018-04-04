@@ -19,6 +19,8 @@ public interface StationToolkit
   TemperatureSensorImp makeTemperature();
   BarometricPressureSensorImp makeBarometricPressure();
 
-  PersistentImp getPersistentImp();
   AlarmClockImp getAlarmClock();
+
+  PersistentImp getPersistentImp();
+
 }
