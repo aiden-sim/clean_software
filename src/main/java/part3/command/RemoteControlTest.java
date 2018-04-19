@@ -1,4 +1,4 @@
-package chater3.command;
+package part3.command;
 
 /*
 Client
